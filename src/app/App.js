@@ -15,17 +15,6 @@ const AppWrapper = styled.div`
 `;
 
 const App = () => {
-  // chrome.runtime.onMessage.addListener(message => {
-  //   debugger;
-  //   const { type, data } = message;
-  //   switch (type) {
-  //     case "GOT_AGENCIES":
-  //       debugger;
-  //       setAgencyOptions(data);
-  //       break;
-  //   }
-  // });
-  // const port = chrome.runtime.connect({ name: "backgroundConnection" });
   return (
     <AppWrapper>
       <AppHeader />
