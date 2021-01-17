@@ -1,7 +1,7 @@
 /*global chrome*/
-import React, { useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import React, {useEffect, useState} from "react";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import MaterialCard from "../../../../common/components/card/material_card";
 import Switch from "@material-ui/core/Switch";
 
@@ -35,7 +35,7 @@ const NewUserFeatureCard = ({ onBackClick }) => {
               text: value.userFeature
             };
           }
-        );
+        ).sort((a, b) => -b.text.localeCompare(a.text));
         setUserFeatureOptions(userFeatures);
         break;
     }
@@ -56,6 +56,14 @@ const NewUserFeatureCard = ({ onBackClick }) => {
       });
     });
     setIsToggle(isChecked);
+    const userFeatures = userFeatureOptions.map(
+        item => {
+          return item.text === userFeature ?
+              {...item, value: { ...item.value, enabled: isChecked }}
+              : item;
+        }
+    ).sort((a, b) => -b.text.localeCompare(a.text));
+    setUserFeatureOptions(userFeatures);
   };
 
   const onAgenciesDropDownChange = (e, { value }) => {
@@ -75,6 +83,15 @@ const NewUserFeatureCard = ({ onBackClick }) => {
     setUserFeature(value.userFeature);
     setIsToggle(value.enabled);
   };
+
+  useEffect(() => {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        type: "AGENCIES",
+        data: {}
+      });
+    });
+  }, []);
 
   return (
     <MaterialCard title={"User Features"} onBackClick={onBackClick}>
