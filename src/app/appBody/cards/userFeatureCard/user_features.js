@@ -1,27 +1,11 @@
 /*global chrome*/
-import React, { useState } from "react";
-import styled from "styled-components";
-import BaseCard, {
-  CardHeader as CardHeaderBase
-} from "../../../common/components/card/card";
-import { Dropdown as BaseDropDown} from "semantic-ui-react";
+import React, {useEffect, useState} from "react";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import MaterialCard from "../../../../common/components/card/material_card";
 import Switch from "@material-ui/core/Switch";
 
-const CardHeader = styled(CardHeaderBase)`
-  margin-bottom: 24px;
-`;
-
-const Card = styled(BaseCard)`
-  width: 90%;
-  padding: 20px 23px 23px;
-  margin-bottom: 14px;
-`;
-
-const Dropdown = styled(BaseDropDown)`
-  margin-bottom: 10px;
-`;
-
-const UserFeatureCard = () => {
+const NewUserFeatureCard = ({ onBackClick }) => {
   const [userFeature, setUserFeature] = useState("");
   const [isToggle, setIsToggle] = useState(false);
   const [agency, setAgency] = useState([]);
@@ -51,7 +35,7 @@ const UserFeatureCard = () => {
               text: value.userFeature
             };
           }
-        );
+        ).sort((a, b) => -b.text.localeCompare(a.text));
         setUserFeatureOptions(userFeatures);
         break;
     }
@@ -72,6 +56,14 @@ const UserFeatureCard = () => {
       });
     });
     setIsToggle(isChecked);
+    const userFeatures = userFeatureOptions.map(
+        item => {
+          return item.text === userFeature ?
+              {...item, value: { ...item.value, enabled: isChecked }}
+              : item;
+        }
+    ).sort((a, b) => -b.text.localeCompare(a.text));
+    setUserFeatureOptions(userFeatures);
   };
 
   const onAgenciesDropDownChange = (e, { value }) => {
@@ -92,24 +84,42 @@ const UserFeatureCard = () => {
     setIsToggle(value.enabled);
   };
 
+  useEffect(() => {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        type: "AGENCIES",
+        data: {}
+      });
+    });
+  }, []);
+
   return (
-    <Card background={"WHITE"} withShadow={false}>
-      <CardHeader>User Feature Management</CardHeader>
-      <Dropdown
-        fluid
-        search
-        selection
+    <MaterialCard title={"User Features"} onBackClick={onBackClick}>
+      <Autocomplete
+        style={{ marginTop: 25 }}
         options={agencyOptions}
+        getOptionLabel={option => option.text}
         onChange={onAgenciesDropDownChange}
-        placeholder="Select Agency"
+        renderInput={params => (
+          <TextField {...params} label="Select Agency" variant="outlined" />
+        )}
       />
-      <Dropdown
-        fluid
-        search
-        selection
+      <Autocomplete
+        style={{ marginTop: 15, marginBottom: 15 }}
+        ListboxProps={{
+          style: { maxHeight: "10rem" },
+          position: "bottom-start"
+        }}
         options={userFeatureOptions}
+        getOptionLabel={option => option.text}
         onChange={onUserFeaturesDropDownChange}
-        placeholder="Select User feature"
+        renderInput={params => (
+          <TextField
+            {...params}
+            label="Select User feature"
+            variant="outlined"
+          />
+        )}
       />
       <Switch
         checked={isToggle}
@@ -118,8 +128,8 @@ const UserFeatureCard = () => {
         name="checkedB"
         inputProps={{ "aria-label": "primary checkbox" }}
       />
-    </Card>
+    </MaterialCard>
   );
 };
 
-export default UserFeatureCard;
+export default NewUserFeatureCard;

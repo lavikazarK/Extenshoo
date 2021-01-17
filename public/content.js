@@ -3,7 +3,6 @@ scriptElement.src = chrome.extension.getURL("pageScript.js");
 (document.head || document.documentElement).appendChild(scriptElement);
 
 chrome.runtime.onMessage.addListener(message => {
-  debugger;
   const { type, data } = message;
   switch (type) {
     case "SET_USER_FEATURE":

@@ -1,7 +1,8 @@
 /*global chrome*/
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import UserFeatureCard from "./userFeatureCard/UserFeatureCard";
+import NewUserFeatureCard from "./cards/userFeatureCard/user_features";
+import MainCard from "./cards/main_card";
 
 const AppBodyWrapper = styled.div`
   height: 420px;
@@ -12,9 +13,16 @@ const AppBodyWrapper = styled.div`
 `;
 
 const AppBody = () => {
+  const [openUFCard, setOpenUFCard] = useState(false);
+
+  const allInnerCardsClosed = !openUFCard;
+
   return (
     <AppBodyWrapper>
-      <UserFeatureCard />
+      {allInnerCardsClosed && <MainCard setOpenUFCard={setOpenUFCard} />}
+      {openUFCard && (
+        <NewUserFeatureCard onBackClick={() => setOpenUFCard(false)} />
+      )}
     </AppBodyWrapper>
   );
 };
