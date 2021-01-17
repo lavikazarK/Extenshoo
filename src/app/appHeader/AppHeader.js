@@ -13,7 +13,7 @@ const AppWrapperHeader = styled.div`
   margin-bottom: 20px;
 `;
 
-const AppHeader = props => {
+const AppHeader = () => {
   return (
     <AppWrapperHeader>
       <img src={kSearch} width={"150px"} height={"50px"} alt={"KSearch"} />

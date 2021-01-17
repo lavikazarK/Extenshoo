@@ -1,5 +1,5 @@
 /*global chrome*/
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import NewUserFeatureCard from "./cards/userFeatureCard/user_features";
 import MainCard from "./cards/main_card";
@@ -13,14 +13,16 @@ const AppBodyWrapper = styled.div`
 `;
 
 const AppBody = () => {
-    const [openUFCard, setOpenUFCard] = useState(false);
+  const [openUFCard, setOpenUFCard] = useState(false);
 
-    const allInnerCardsClosed = !openUFCard;
+  const allInnerCardsClosed = !openUFCard;
 
   return (
     <AppBodyWrapper>
-        {allInnerCardsClosed && <MainCard setOpenUFCard={setOpenUFCard}/>}
-        {openUFCard && <NewUserFeatureCard onBackClick={() => setOpenUFCard(false)}/>}
+      {allInnerCardsClosed && <MainCard setOpenUFCard={setOpenUFCard} />}
+      {openUFCard && (
+        <NewUserFeatureCard onBackClick={() => setOpenUFCard(false)} />
+      )}
     </AppBodyWrapper>
   );
 };
