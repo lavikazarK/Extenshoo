@@ -12,7 +12,7 @@ const NewUserFeatureCard = ({ onBackClick }) => {
   const [agencyOptions, setAgencyOptions] = useState([]);
   const [userFeatureOptions, setUserFeatureOptions] = useState([]);
 
-  chrome.runtime.onMessage.addListener(message => {
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     switch (message.type) {
       case "GOT_AGENCIES":
         const agencies = Object.entries(message.agencies).map(
