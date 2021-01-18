@@ -12,16 +12,21 @@ const AppBodyWrapper = styled.div`
   justify-content: flex-start;
 `;
 
-const AppBody = () => {
+const AppBody = ({ applyDarkMode }) => {
   const [openUFCard, setOpenUFCard] = useState(false);
 
   const allInnerCardsClosed = !openUFCard;
 
   return (
     <AppBodyWrapper>
-      {allInnerCardsClosed && <MainCard setOpenUFCard={setOpenUFCard} />}
+      {allInnerCardsClosed && (
+        <MainCard setOpenUFCard={setOpenUFCard} applyDarkMode={applyDarkMode} />
+      )}
       {openUFCard && (
-        <NewUserFeatureCard onBackClick={() => setOpenUFCard(false)} />
+        <NewUserFeatureCard
+          onBackClick={() => setOpenUFCard(false)}
+          applyDarkMode={applyDarkMode}
+        />
       )}
     </AppBodyWrapper>
   );

@@ -15,7 +15,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles({
   root: {
     height: "100%",
     padding: 23,
@@ -23,12 +23,14 @@ const useStyles = makeStyles(() => ({
     marginBottom: 20,
     display: "grid",
     gridTemplateColumns: "auto auto auto",
-    paddingTop: 40
+    paddingTop: 40,
+    backgroundColor: props => props.applyDarkMode && "#27242C",
+    color: props => props.applyDarkMode && "white"
   }
-}));
+});
 
-const MainCard = ({ setOpenUFCard }) => {
-  const classes = useStyles();
+const MainCard = ({ setOpenUFCard, applyDarkMode }) => {
+  const classes = useStyles({ applyDarkMode });
 
   return (
     <Card className={classes.root}>

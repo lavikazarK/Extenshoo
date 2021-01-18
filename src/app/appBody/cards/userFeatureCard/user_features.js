@@ -1,11 +1,11 @@
 /*global chrome*/
-import React, {useEffect, useState} from "react";
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import React, { useEffect, useState } from "react";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import MaterialCard from "../../../../common/components/card/material_card";
 import Switch from "@material-ui/core/Switch";
 
-const NewUserFeatureCard = ({ onBackClick }) => {
+const NewUserFeatureCard = ({ onBackClick, applyDarkMode }) => {
   const [userFeature, setUserFeature] = useState("");
   const [isToggle, setIsToggle] = useState(false);
   const [agency, setAgency] = useState([]);
@@ -27,15 +27,15 @@ const NewUserFeatureCard = ({ onBackClick }) => {
         setAgencyOptions(agencies);
         break;
       case "GOT_USER_FEATURES":
-        const userFeatures = Object.entries(message.userFeatures).map(
-          ([key, value]) => {
+        const userFeatures = Object.entries(message.userFeatures)
+          .map(([key, value]) => {
             return {
               key,
               value: { userFeature: value.userFeature, enabled: value.enabled },
               text: value.userFeature
             };
-          }
-        ).sort((a, b) => -b.text.localeCompare(a.text));
+          })
+          .sort((a, b) => -b.text.localeCompare(a.text));
         setUserFeatureOptions(userFeatures);
         break;
     }
@@ -56,13 +56,13 @@ const NewUserFeatureCard = ({ onBackClick }) => {
       });
     });
     setIsToggle(isChecked);
-    const userFeatures = userFeatureOptions.map(
-        item => {
-          return item.text === userFeature ?
-              {...item, value: { ...item.value, enabled: isChecked }}
-              : item;
-        }
-    ).sort((a, b) => -b.text.localeCompare(a.text));
+    const userFeatures = userFeatureOptions
+      .map(item => {
+        return item.text === userFeature
+          ? { ...item, value: { ...item.value, enabled: isChecked } }
+          : item;
+      })
+      .sort((a, b) => -b.text.localeCompare(a.text));
     setUserFeatureOptions(userFeatures);
   };
 
@@ -94,7 +94,11 @@ const NewUserFeatureCard = ({ onBackClick }) => {
   }, []);
 
   return (
-    <MaterialCard title={"User Features"} onBackClick={onBackClick}>
+    <MaterialCard
+      title={"User Features"}
+      onBackClick={onBackClick}
+      applyDarkMode={applyDarkMode}
+    >
       <Autocomplete
         style={{ marginTop: 25 }}
         options={agencyOptions}

@@ -9,16 +9,23 @@ const AppWrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  background-color: #f7f7f7;
+  background-color: ${({ applyDarkMode }) =>
+    applyDarkMode ? "#19171D" : "#f7f7f7"};
+  color: ${({ applyDarkMode }) => !applyDarkMode && "white"};
   width: 330px;
   height: 500px;
 `;
 
 const App = () => {
+  const [applyDarkMode, setApplyDarkMode] = useState(false);
+
   return (
-    <AppWrapper>
-      <AppHeader />
-      <AppBody />
+    <AppWrapper applyDarkMode={applyDarkMode}>
+      <AppHeader
+        applyDarkMode={applyDarkMode}
+        setApplyDarkMode={setApplyDarkMode}
+      />
+      <AppBody applyDarkMode={applyDarkMode} />
     </AppWrapper>
   );
 };

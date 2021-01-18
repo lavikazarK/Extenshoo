@@ -1,22 +1,57 @@
-import kSearch from "../../resources/images/kSearch.png";
+import KenshooLogo from "../../resources/images/KenshooLogo.png";
 import React from "react";
 import styled from "styled-components";
+import ConfigMenu from "./config_menu";
 
 const AppWrapperHeader = styled.div`
   height: 80px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
-  margin-bottom: 20px;
+  color: ${({ applyDarkMode }) => (applyDarkMode ? "white" : "dimgray")};
 `;
 
-const AppHeader = () => {
+const ConfigIconWrapper = styled.div`
+  margin-left: 8px;
+  height: 36px;
+  margin-top: 10px;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-size: 33px;
+  font-weight: 400;
+  font-family: inherit;
+  margin-right: 70px;
+  align-items: baseline;
+`;
+
+const ImgWrapper = styled.div`
+  margin-right: 7px;
+`;
+
+const AppHeader = ({ applyDarkMode, setApplyDarkMode }) => {
   return (
-    <AppWrapperHeader>
-      <img src={kSearch} width={"150px"} height={"50px"} alt={"KSearch"} />
+    <AppWrapperHeader applyDarkMode={applyDarkMode}>
+      <ConfigIconWrapper>
+        <ConfigMenu
+          applyDarkMode={applyDarkMode}
+          setApplyDarkMode={setApplyDarkMode}
+        />
+      </ConfigIconWrapper>
+      <TitleWrapper>
+        <ImgWrapper>
+          <img
+            src={KenshooLogo}
+            width={"30px"}
+            height={"35px"}
+            alt={"KenshooLogo"}
+          />
+        </ImgWrapper>
+        Extenshoo
+      </TitleWrapper>
     </AppWrapperHeader>
   );
 };
