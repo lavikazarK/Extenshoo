@@ -1,32 +1,48 @@
 /*global chrome*/
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useMemo, useState } from "react";
 import AppBody from "./appBody/AppBody";
 import AppHeader from "./appHeader/AppHeader";
+import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
 
-const AppWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  background-color: ${({ applyDarkMode }) =>
-    applyDarkMode ? "#19171D" : "#f7f7f7"};
-  color: ${({ applyDarkMode }) => !applyDarkMode && "white"};
-  width: 330px;
-  height: 500px;
-`;
+const useStyles = makeStyles({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    textAlign: "center",
+    backgroundColor: props => (props.applyDarkMode ? "#19171D" : "#f7f7f7"),
+    color: props => !props.applyDarkMode && "white",
+    width: 330,
+    height: 500
+  }
+});
 
 const App = () => {
   const [applyDarkMode, setApplyDarkMode] = useState(false);
+  const classes = useStyles({ applyDarkMode });
+
+  const theme = useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          type: applyDarkMode ? "dark" : "light"
+        }
+      }),
+    [applyDarkMode]
+  );
 
   return (
-    <AppWrapper applyDarkMode={applyDarkMode}>
-      <AppHeader
-        applyDarkMode={applyDarkMode}
-        setApplyDarkMode={setApplyDarkMode}
-      />
-      <AppBody applyDarkMode={applyDarkMode} />
-    </AppWrapper>
+    <ThemeProvider theme={theme} applyDarkMode={applyDarkMode}>
+      <div className={classes.root}>
+        <AppHeader
+          applyDarkMode={applyDarkMode}
+          setApplyDarkMode={setApplyDarkMode}
+        />
+        <AppBody applyDarkMode={applyDarkMode} />
+      </div>
+    </ThemeProvider>
   );
 };
 

@@ -23,9 +23,7 @@ const useStyles = makeStyles({
     marginBottom: 20,
     display: "grid",
     gridTemplateColumns: "auto auto auto",
-    paddingTop: 40,
-    backgroundColor: props => props.applyDarkMode && "#27242C",
-    color: props => props.applyDarkMode && "white"
+    paddingTop: 40
   }
 });
 

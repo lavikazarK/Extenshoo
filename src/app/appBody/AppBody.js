@@ -1,24 +1,27 @@
 /*global chrome*/
 import React, { useState } from "react";
-import styled from "styled-components";
 import NewUserFeatureCard from "./cards/userFeatureCard/user_features";
 import MainCard from "./cards/main_card";
+import { makeStyles } from "@material-ui/core/styles";
 
-const AppBodyWrapper = styled.div`
-  height: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-`;
+const useStyles = makeStyles(() => ({
+  root: {
+    height: 420,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start"
+  }
+}));
 
 const AppBody = ({ applyDarkMode }) => {
+  const classes = useStyles();
   const [openUFCard, setOpenUFCard] = useState(false);
 
   const allInnerCardsClosed = !openUFCard;
 
   return (
-    <AppBodyWrapper>
+    <div className={classes.root}>
       {allInnerCardsClosed && (
         <MainCard setOpenUFCard={setOpenUFCard} applyDarkMode={applyDarkMode} />
       )}
@@ -28,7 +31,7 @@ const AppBody = ({ applyDarkMode }) => {
           applyDarkMode={applyDarkMode}
         />
       )}
-    </AppBodyWrapper>
+    </div>
   );
 };
 

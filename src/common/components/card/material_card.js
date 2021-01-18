@@ -11,9 +11,7 @@ const useStyles = makeStyles({
     height: "100%",
     padding: 23,
     width: "90%",
-    marginBottom: 20,
-    backgroundColor: props => props.applyDarkMode && "#27242C",
-    color: props => props.applyDarkMode && "white"
+    marginBottom: 20
   },
   header: {},
   button: {
