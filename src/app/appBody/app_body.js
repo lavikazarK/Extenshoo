@@ -1,6 +1,6 @@
 /*global chrome*/
 import React, { useState } from "react";
-import NewUserFeatureCard from "./cards/userFeatureCard/user_features";
+import NewUserFeatureCard from "./cards/user_features_card/user_features";
 import MainCard from "./cards/main_card";
 import { makeStyles } from "@material-ui/core/styles";
 

@@ -1,7 +1,7 @@
 /*global chrome*/
 import React, { useMemo, useState } from "react";
-import AppBody from "./appBody/AppBody";
-import AppHeader from "./appHeader/AppHeader";
+import AppBody from "./appBody/app_body";
+import AppHeader from "./app_header/app_header";
 import { makeStyles } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
