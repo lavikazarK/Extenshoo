@@ -1,7 +1,9 @@
 import KenshooLogo from "../../resources/images/KenshooLogo.png";
 import React from "react";
 import ConfigMenu from "./config_menu";
-import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import { ThemeProvider } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   root: {
@@ -23,11 +25,17 @@ const useStyles = makeStyles({
     fontSize: 33,
     fontWeight: 400,
     fontFamily: "inherit",
-    marginRight: 70,
+    marginRight: 80,
     alignItems: "baseline"
   },
   image: {
     marginRight: 7
+  }
+});
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: ["'Yusei Magic'", "sans-serif"].join(",")
   }
 });
 
@@ -41,17 +49,19 @@ const AppHeader = ({ applyDarkMode, setApplyDarkMode }) => {
           setApplyDarkMode={setApplyDarkMode}
         />
       </div>
-      <div className={classes.title}>
-        <div className={classes.image}>
-          <img
-            src={KenshooLogo}
-            width={"30px"}
-            height={"35px"}
-            alt={"KenshooLogo"}
-          />
+      <ThemeProvider theme={theme}>
+        <div className={classes.title}>
+          <div className={classes.image}>
+            <img
+              src={KenshooLogo}
+              width={"30px"}
+              height={"35px"}
+              alt={"KenshooLogo"}
+            />
+          </div>
+          <Typography variant="h4">Extenshoo</Typography>
         </div>
-        Extenshoo
-      </div>
+      </ThemeProvider>
     </div>
   );
 };
