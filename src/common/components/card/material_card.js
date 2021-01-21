@@ -6,7 +6,7 @@ import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Card from "@material-ui/core/Card";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles({
   root: {
     height: "100%",
     padding: 23,
@@ -18,10 +18,10 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "lightgray",
     marginRight: 8
   }
-}));
+});
 
-const MaterialCard = ({ children, title, onBackClick }) => {
-  const classes = useStyles();
+const MaterialCard = ({ children, title, onBackClick, applyDarkMode }) => {
+  const classes = useStyles({ applyDarkMode });
   return (
     <Card className={classes.root}>
       <CardActions className={classes.header}>
