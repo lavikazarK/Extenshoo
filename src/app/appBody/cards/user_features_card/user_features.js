@@ -5,7 +5,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import MaterialCard from "../../../../common/components/card/material_card";
 import Switch from "@material-ui/core/Switch";
 
-const NewUserFeatureCard = ({ onBackClick, applyDarkMode }) => {
+const NewUserFeatureCard = ({ onBackClick }) => {
   const [userFeature, setUserFeature] = useState("");
   const [isToggle, setIsToggle] = useState(false);
   const [agency, setAgency] = useState([]);
@@ -67,7 +67,7 @@ const NewUserFeatureCard = ({ onBackClick, applyDarkMode }) => {
   };
 
   const onAgenciesDropDownChange = (e, { value }) => {
-    console.log(value);
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", value);
     setAgency(value);
     setIsToggle(false);
     setUserFeature(undefined);
@@ -94,11 +94,7 @@ const NewUserFeatureCard = ({ onBackClick, applyDarkMode }) => {
   }, []);
 
   return (
-    <MaterialCard
-      title={"User Features"}
-      onBackClick={onBackClick}
-      applyDarkMode={applyDarkMode}
-    >
+    <MaterialCard title={"User Features"} onBackClick={onBackClick}>
       <Autocomplete
         style={{ marginTop: 25 }}
         options={agencyOptions}
