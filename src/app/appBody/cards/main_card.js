@@ -27,15 +27,21 @@ const useStyles = makeStyles({
   }
 });
 
-const MainCard = ({ setOpenUFCard, applyDarkMode }) => {
-  const classes = useStyles({ applyDarkMode });
+const MainCard = ({
+  setOpenUFCard,
+  setOpenConfigCard,
+  setOpenGlobalsCard,
+  setOpenLoginCard,
+  setOpenControlPanelCard
+}) => {
+  const classes = useStyles({});
 
   return (
     <Card className={classes.root}>
       <IconButtonCmp
         title={"Config"}
         icon={Settings}
-        onClick={() => setOpenUFCard(true)}
+        onClick={() => setOpenConfigCard(true)}
       />
       <IconButtonCmp
         title={"Grids"}
@@ -45,12 +51,12 @@ const MainCard = ({ setOpenUFCard, applyDarkMode }) => {
       <IconButtonCmp
         title={"Globals"}
         icon={Storage}
-        onClick={() => setOpenUFCard(true)}
+        onClick={() => setOpenGlobalsCard(true)}
       />
       <IconButtonCmp
         title={"Control panel"}
         icon={Airplay}
-        onClick={() => setOpenUFCard(true)}
+        onClick={() => setOpenControlPanelCard(true)}
       />
       <IconButtonCmp
         title={"System processes"}
@@ -65,7 +71,7 @@ const MainCard = ({ setOpenUFCard, applyDarkMode }) => {
       <IconButtonCmp
         title={"Login as"}
         icon={ExitToApp}
-        onClick={() => setOpenUFCard(true)}
+        onClick={() => setOpenLoginCard(true)}
       />
       <IconButtonCmp
         title={"Favorites"}

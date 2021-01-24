@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     justifyContent: "center",
     flexDirection: "column",
     textAlign: "center",
-    backgroundColor: props => (props.applyDarkMode ? "#19171D" : "#f7f7f7"),
+    backgroundColor: props => (props.applyDarkMode ? "#27242C" : "#f7f7f7"),
     color: props => !props.applyDarkMode && "white",
     width: 330,
     height: 500
@@ -34,13 +34,13 @@ const App = () => {
   );
 
   return (
-    <ThemeProvider theme={theme} applyDarkMode={applyDarkMode}>
+    <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <AppHeader
           applyDarkMode={applyDarkMode}
           setApplyDarkMode={setApplyDarkMode}
         />
-        <AppBody applyDarkMode={applyDarkMode} />
+        <AppBody />
       </div>
     </ThemeProvider>
   );

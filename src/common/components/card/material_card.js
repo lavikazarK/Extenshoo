@@ -20,8 +20,8 @@ const useStyles = makeStyles({
   }
 });
 
-const MaterialCard = ({ children, title, onBackClick, applyDarkMode }) => {
-  const classes = useStyles({ applyDarkMode });
+const MaterialCard = ({ children, title, onBackClick }) => {
+  const classes = useStyles({});
   return (
     <Card className={classes.root}>
       <CardActions className={classes.header}>
