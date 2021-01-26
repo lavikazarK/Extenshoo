@@ -7,6 +7,7 @@ import ConfigurationsCard from "./cards/configurations_card/configurations";
 import GlobalsCard from "./cards/globals_card/globals";
 import LoginCard from "./cards/login_card/login";
 import ControlPanelCard from "./cards/control_panel_card/control_panel";
+import SystemProcessesCard from "./cards/system_processes_card/system_processes";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -25,13 +26,15 @@ const AppBody = () => {
   const [openGlobalsCard, setOpenGlobalsCard] = useState(false);
   const [openLoginCard, setOpenLoginCard] = useState(false);
   const [openControlPanelCard, setOpenControlPanelCard] = useState(false);
+  const [openSystemProcessesCard, setOpenSystemProcessesCard] = useState(false);
 
   const allInnerCardsClosed =
     !openUFCard &&
     !openConfigCard &&
     !openGlobalsCard &&
     !openLoginCard &&
-    !openControlPanelCard;
+    !openControlPanelCard &&
+    !openSystemProcessesCard;
 
   return (
     <div className={classes.root}>
@@ -42,6 +45,7 @@ const AppBody = () => {
           setOpenGlobalsCard={setOpenGlobalsCard}
           setOpenLoginCard={setOpenLoginCard}
           setOpenControlPanelCard={setOpenControlPanelCard}
+          setOpenSystemProcessesCard={setOpenSystemProcessesCard}
         />
       )}
       {openUFCard && (
@@ -58,6 +62,11 @@ const AppBody = () => {
       )}
       {openControlPanelCard && (
         <ControlPanelCard onBackClick={() => setOpenControlPanelCard(false)} />
+      )}
+      {openSystemProcessesCard && (
+        <SystemProcessesCard
+          onBackClick={() => setOpenSystemProcessesCard(false)}
+        />
       )}
     </div>
   );

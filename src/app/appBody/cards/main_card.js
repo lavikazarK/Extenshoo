@@ -32,7 +32,8 @@ const MainCard = ({
   setOpenConfigCard,
   setOpenGlobalsCard,
   setOpenLoginCard,
-  setOpenControlPanelCard
+  setOpenControlPanelCard,
+  setOpenSystemProcessesCard
 }) => {
   const classes = useStyles({});
 
@@ -61,7 +62,7 @@ const MainCard = ({
       <IconButtonCmp
         title={"System processes"}
         icon={Cast}
-        onClick={() => setOpenUFCard(true)}
+        onClick={() => setOpenSystemProcessesCard(true)}
       />
       <IconButtonCmp
         title={"User Features"}
