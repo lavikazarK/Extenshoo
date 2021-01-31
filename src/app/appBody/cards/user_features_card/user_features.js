@@ -67,7 +67,6 @@ const NewUserFeatureCard = ({ onBackClick }) => {
   };
 
   const onAgenciesDropDownChange = (e, { value }) => {
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", value);
     setAgency(value);
     setIsToggle(false);
     setUserFeature(undefined);
