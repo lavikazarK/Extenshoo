@@ -10,7 +10,7 @@ import {
   Apps,
   ExitToApp,
   FavoriteBorder,
-  SignalCellularAlt
+  Polymer
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -33,7 +33,8 @@ const MainCard = ({
   setOpenGlobalsCard,
   setOpenLoginCard,
   setOpenControlPanelCard,
-  setOpenSystemProcessesCard
+  setOpenSystemProcessesCard,
+  setOpenSignalsCard
 }) => {
   const classes = useStyles({});
 
@@ -81,8 +82,8 @@ const MainCard = ({
       />
       <IconButtonCmp
         title={"Signals"}
-        icon={SignalCellularAlt}
-        onClick={() => setOpenUFCard(true)}
+        icon={() => <Polymer style={{ transform: "rotate(-90deg)" }} />}
+        onClick={() => setOpenSignalsCard(true)}
       />
     </Card>
   );

@@ -2,7 +2,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { ArrowRight } from "@material-ui/icons";
+import { Stop } from "@material-ui/icons";
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -17,7 +17,13 @@ const DescriptionItemHeader = ({ header }) => {
 
   return (
     <div className={classes.header}>
-      <ArrowRight style={{ color: "#7AF0B9" }} fontSize={"large"} />
+      <Stop
+        style={{
+          color: "#7AF0B9",
+          transform: "rotate(-45deg)",
+          marginRight: 6
+        }}
+      />
       <Typography style={{ fontWeight: 600 }} variant="subtitle1">
         {header}:
       </Typography>

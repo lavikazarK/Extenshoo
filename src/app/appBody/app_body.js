@@ -8,6 +8,7 @@ import GlobalsCard from "./cards/globals_card/globals";
 import LoginCard from "./cards/login_card/login";
 import ControlPanelCard from "./cards/control_panel_card/control_panel";
 import SystemProcessesCard from "./cards/system_processes_card/system_processes";
+import SignalsCard from "./cards/signals_card/signals";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -27,6 +28,7 @@ const AppBody = () => {
   const [openLoginCard, setOpenLoginCard] = useState(false);
   const [openControlPanelCard, setOpenControlPanelCard] = useState(false);
   const [openSystemProcessesCard, setOpenSystemProcessesCard] = useState(false);
+  const [openSignalsCard, setOpenSignalsCard] = useState(false);
 
   const allInnerCardsClosed =
     !openUFCard &&
@@ -34,7 +36,8 @@ const AppBody = () => {
     !openGlobalsCard &&
     !openLoginCard &&
     !openControlPanelCard &&
-    !openSystemProcessesCard;
+    !openSystemProcessesCard &&
+    !openSignalsCard;
 
   return (
     <div className={classes.root}>
@@ -46,6 +49,7 @@ const AppBody = () => {
           setOpenLoginCard={setOpenLoginCard}
           setOpenControlPanelCard={setOpenControlPanelCard}
           setOpenSystemProcessesCard={setOpenSystemProcessesCard}
+          setOpenSignalsCard={setOpenSignalsCard}
         />
       )}
       {openUFCard && (
@@ -67,6 +71,9 @@ const AppBody = () => {
         <SystemProcessesCard
           onBackClick={() => setOpenSystemProcessesCard(false)}
         />
+      )}
+      {openSignalsCard && (
+        <SignalsCard onBackClick={() => setOpenSignalsCard(false)} />
       )}
     </div>
   );
