@@ -20,6 +20,12 @@ const handlePopupContentEvents = event => {
       case "GET_HOST":
         window.top.getHost(data.payload);
         break;
+      case "SYSTEM_PROCESSES":
+        window.top.getSystemProcesses(data.payload);
+        break;
+      case "SYSTEM_PROCESSES_DTO":
+        window.top.getSystemProcessDto(data.payload);
+        break;
       case "GLOBALS":
         window.top.getGlobals(data.payload);
         break;
