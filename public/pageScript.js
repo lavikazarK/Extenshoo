@@ -11,6 +11,15 @@ const handlePopupContentEvents = event => {
       case "USER_FEATURES":
         window.top.getUserFeatures(data.payload);
         break;
+      case "GET_CONTROL_PANEL_OPTIONS":
+        window.top.getControlPanelOptions(data.payload);
+        break;
+      case "REFRESH_CONTROL_PANEL":
+        window.top.refreshControlPanel(data.payload);
+        break;
+      case "GET_HOST":
+        window.top.getHost(data.payload);
+        break;
       default:
         break;
     }

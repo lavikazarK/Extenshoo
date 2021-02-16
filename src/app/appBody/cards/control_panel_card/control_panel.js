@@ -1,5 +1,5 @@
 /*global chrome*/
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import MaterialCard from "../../../../common/components/card/material_card";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
@@ -12,13 +12,6 @@ import ActionButton from "../../../../common/components/action_button/action_but
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import { ThemeProvider } from "@material-ui/styles";
 
-const options = [
-  "Agencies",
-  "Profiles",
-  "Reloadable globals",
-  "User settings cache"
-];
-
 const useStyles = makeStyles(() => ({
   item: {
     display: "flex",
@@ -29,7 +22,7 @@ const useStyles = makeStyles(() => ({
     marginLeft: 5,
     alignItems: "center"
   },
-  refresh: {
+  apply: {
     marginTop: 40
   }
 }));
@@ -45,6 +38,9 @@ const ControlPanelCard = ({ onBackClick }) => {
 
   const [logLevelDebugChecked, setLogLevelDebugChecked] = useState(false);
   const [schedulerChecked, setSchedulerChecked] = useState(false);
+  const [reloadOptions, setReloadOptions] = useState([]);
+  const [selectedOption, setSelectedReloadOption] = useState("");
+  const [host, setHost] = useState("");
 
   const onLogLevelDebugChange = event => {
     setLogLevelDebugChecked(event.target.checked);
@@ -54,12 +50,74 @@ const ControlPanelCard = ({ onBackClick }) => {
     setSchedulerChecked(event.target.checked);
   };
 
+   const onControlPanelDropDownChange = (e, { value }) => {
+       setSelectedReloadOption(value);
+   };
+
+  const onApply = () => {
+       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+           chrome.tabs.sendMessage(tabs[0].id, {
+               type: "REFRESH_CONTROL_PANEL",
+               data: {
+                   selectedOption,
+                   schedulerChecked,
+                   logLevelDebugChecked,
+                   tabId: tabs[0].id
+               }
+           });
+       });
+  };
+
+    const onClickKenshooLogs= () => {
+        window.open(host + '/global_log_viewer.jsp');
+    };
+
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      switch (message.type) {
+          case "GOT_CONTROL_PANEL_OPTIONS":
+              const options = Object.entries(message.options).map(
+                  ([key, value]) => {
+                      return {
+                          key,
+                          value: value,
+                          text: value
+                        };
+                    }
+                );
+                setReloadOptions(options);
+                break;
+          case "GOT_HOST":
+              setHost(message.host);
+              break;
+        }
+        console.log(message);
+    });
+
+  useEffect(() => {
+     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+         chrome.tabs.sendMessage(tabs[0].id, {
+             type: "GET_CONTROL_PANEL_OPTIONS",
+             data: {}
+          });
+      });
+     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+         chrome.tabs.sendMessage(tabs[0].id, {
+             type: "GET_HOST",
+             data: {}
+         });
+     });
+  }, []);
+
+
+
+
   return (
     <MaterialCard title={"Control panel"} onBackClick={onBackClick}>
       <Autocomplete
         style={{ marginTop: 20, marginBottom: 20 }}
-        options={options}
-        onChange={() => {}}
+        options={reloadOptions}
+        getOptionLabel={option => option.text}
+        onChange={onControlPanelDropDownChange}
         renderInput={params => (
           <TextField {...params} label="Cache management" variant="outlined" />
         )}
@@ -84,6 +142,7 @@ const ControlPanelCard = ({ onBackClick }) => {
         <div className={classes.item}>
           <Typography variant="h6">Kenshoo logs</Typography>
           <Button
+              onClick={onClickKenshooLogs}
             style={{
               backgroundColor: "#7AF0B9",
               maxWidth: "40px",
@@ -100,8 +159,8 @@ const ControlPanelCard = ({ onBackClick }) => {
           />
         </div>
       </ThemeProvider>
-      <div className={classes.refresh}>
-        <ActionButton onClick={() => {}} buttonName={"Refresh"} />
+      <div className={classes.apply}>
+        <ActionButton onClick={onApply} buttonName={"Apply"} />
       </div>
     </MaterialCard>
   );
