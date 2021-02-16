@@ -27,7 +27,6 @@ const ListCmp = ({
 
   //todo - put defaultValue or currentValue to initial checkedItems array
   const [checkedItems, setCheckedItems] = React.useState([]);
-  debugger;
   let availableValuesList = availableValues;
   if (!availableValues) {
     availableValuesList = [];

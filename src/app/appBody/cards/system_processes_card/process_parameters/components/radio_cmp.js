@@ -13,7 +13,12 @@ const RadioCmp = ({
   availableValues
 }) => {
   const [value, setValue] = useState(currentValue || defaultValue);
-  const availableValuesList = availableValues.split(",");
+  let availableValuesList = availableValues;
+  if (!availableValues) {
+    availableValuesList = [];
+  } else if (availableValues.includes(",")) {
+    availableValuesList = availableValues.split(",")
+  }
 
   const handleChange = e => {
     setValue(e.target.value);
