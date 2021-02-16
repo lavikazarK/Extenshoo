@@ -17,8 +17,8 @@ const handlePopupContentEvents = event => {
       case "REFRESH_CONTROL_PANEL":
         window.top.refreshControlPanel(data.payload);
         break;
-      case "GET_URL":
-        window.top.getUrl(data.payload);
+      case "GET_HOST":
+        window.top.getHost(data.payload);
         break;
       default:
         break;

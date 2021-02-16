@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
     marginLeft: 5,
     alignItems: "center"
   },
-  refresh: {
+  apply: {
     marginTop: 40
   }
 }));
@@ -40,7 +40,7 @@ const ControlPanelCard = ({ onBackClick }) => {
   const [schedulerChecked, setSchedulerChecked] = useState(false);
   const [reloadOptions, setReloadOptions] = useState([]);
   const [selectedOption, setSelectedReloadOption] = useState("");
-  const [url, setUrl] = useState("");
+  const [host, setHost] = useState("");
 
   const onLogLevelDebugChange = event => {
     setLogLevelDebugChecked(event.target.checked);
@@ -51,10 +51,10 @@ const ControlPanelCard = ({ onBackClick }) => {
   };
 
    const onControlPanelDropDownChange = (e, { value }) => {
-       setSelectedReloadOption(value.option);
+       setSelectedReloadOption(value);
    };
 
-  const onRefresh = () => {
+  const onApply = () => {
        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
            chrome.tabs.sendMessage(tabs[0].id, {
                type: "REFRESH_CONTROL_PANEL",
@@ -69,7 +69,7 @@ const ControlPanelCard = ({ onBackClick }) => {
   };
 
     const onClickKenshooLogs= () => {
-        window.open(url.split('/')[0]+'.'+url.split('/')[1]+'/global_log_viewer.jsp');
+        window.open(host + '/global_log_viewer.jsp');
     };
 
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -79,16 +79,15 @@ const ControlPanelCard = ({ onBackClick }) => {
                   ([key, value]) => {
                       return {
                           key,
-                          value: value.option,
-                          text: value.option
+                          value: value,
+                          text: value
                         };
                     }
                 );
                 setReloadOptions(options);
                 break;
-          case "GOT_URL":
-              const url = Object.entries(message.url);
-              setUrl(url);
+          case "GOT_HOST":
+              setHost(message.host);
               break;
         }
         console.log(message);
@@ -103,7 +102,7 @@ const ControlPanelCard = ({ onBackClick }) => {
       });
      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
          chrome.tabs.sendMessage(tabs[0].id, {
-             type: "GET_URL",
+             type: "GET_HOST",
              data: {}
          });
      });
@@ -117,6 +116,7 @@ const ControlPanelCard = ({ onBackClick }) => {
       <Autocomplete
         style={{ marginTop: 20, marginBottom: 20 }}
         options={reloadOptions}
+        getOptionLabel={option => option.text}
         onChange={onControlPanelDropDownChange}
         renderInput={params => (
           <TextField {...params} label="Cache management" variant="outlined" />
@@ -159,8 +159,8 @@ const ControlPanelCard = ({ onBackClick }) => {
           />
         </div>
       </ThemeProvider>
-      <div className={classes.refresh}>
-        <ActionButton onClick={onRefresh} buttonName={"Refresh"} />
+      <div className={classes.apply}>
+        <ActionButton onClick={onApply} buttonName={"Apply"} />
       </div>
     </MaterialCard>
   );

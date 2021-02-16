@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener(message => {
           "*"
       );
       break;
-    case "GET_URL":
+    case "GET_HOST":
       window.postMessage(
           {
             type,
@@ -87,10 +87,10 @@ const handleApplicationEvents = event => {
         });
         // chrome.storage.sync.set({ userFeatures: data.payload });
         break;
-        case "GOT_URL":
+        case "GOT_HOST":
             chrome.runtime.sendMessage({
-                type: "GOT_URL",
-                userFeatures: data.payload
+                type: "GOT_HOST",
+                host: data.payload
             });
             // chrome.storage.sync.set({ userFeatures: data.payload });
             break;
