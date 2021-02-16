@@ -24,10 +24,11 @@ const InputCmp = ({
 
   const handleChange = e => {
     setValue(e.target.value);
+    const newParams = paramNewValues.filter(item => item.name !== paramName);
     setParamNewValues([
-      ...paramNewValues,
+      ...newParams,
       { name: paramName, value: e.target.value }
-    ]); //todo - check duplications
+    ]);
   };
 
   return (

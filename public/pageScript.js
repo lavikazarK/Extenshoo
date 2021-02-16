@@ -20,6 +20,12 @@ const handlePopupContentEvents = event => {
       case "GET_HOST":
         window.top.getHost(data.payload);
         break;
+      case "SYSTEM_PROCESSES":
+        window.top.getSystemProcesses(data.payload);
+        break;
+      case "SYSTEM_PROCESSES_DTO":
+        window.top.getSystemProcessDto(data.payload);
+        break;
       case "GLOBALS":
         window.top.getGlobals(data.payload);
         break;
@@ -34,6 +40,9 @@ const handlePopupContentEvents = event => {
         break;
       case "REDIRECT_TO_GRID":
         window.top.redirectToGrid(data.payload);
+        break;
+      case "START_PROCESS":
+        window.top.startProcess(data.payload);
         break;
       default:
         break;

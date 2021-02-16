@@ -53,12 +53,13 @@ const useStyles = makeStyles(() => ({
 const ParametersDialog = ({
   parameters,
   openParametersDialog,
-  setOpenParametersDialog
+  setOpenParametersDialog,
+  paramNewValues,
+  setParamNewValues
 }) => {
   const classes = useStyles();
 
   const [selectedParam, setSelectedParam] = useState();
-  const [paramNewValues, setParamNewValues] = useState([]);
 
   const ParamValuesCmp = useParameterChange({
     parameters,
@@ -105,9 +106,11 @@ const ParametersDialog = ({
       <DialogFooter
         onCancelClick={() => {
           setOpenParametersDialog(false);
+          setSelectedParam(undefined);
         }}
         onApplyClick={() => {
           setOpenParametersDialog(false);
+          setSelectedParam(undefined);
         }}
       />
     </Dialog>

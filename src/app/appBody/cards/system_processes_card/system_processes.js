@@ -1,5 +1,5 @@
 /*global chrome*/
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import MaterialCard from "../../../../common/components/card/material_card";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
@@ -8,13 +8,6 @@ import ActionButton from "../../../../common/components/action_button/action_but
 import ParametersDialog from "./process_parameters/dialog/parameters_dialog";
 import ProcessDetails from "./process_details";
 import Footer from "./footer";
-
-const options = [
-  "ASAvailabilityProcess",
-  "AutoAcceptBPChangesByPortfolio",
-  "MemsqlDemoServerProcess",
-  "ProductsDataFileProcess"
-];
 
 const params = [
   {
@@ -89,29 +82,90 @@ const useStyles = makeStyles(() => ({
 const SystemProcessesCard = ({ onBackClick }) => {
   const classes = useStyles();
 
-  const [process, setProcess] = useState("");
+  const [processOptions, setProcessOptions] = useState([]);
+  const [process, setProcess] = useState([]);
   const [status, setStatus] = useState("");
   const [lastRun, setLastRun] = useState("");
   const [parameters, setParameters] = useState([]);
   const [openParametersDialog, setOpenParametersDialog] = useState(false);
+  const [paramNewValues, setParamNewValues] = useState([]);
+  const [host, setHost] = useState("");
 
-  const dummyOnChange = (e, value) => {
-    setProcess(value);
-    setStatus("Not Scheduled");
-    setLastRun("2020-07-30 03:00:00.0");
-    setParameters(params);
+
+  useEffect(() => {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        type: "SYSTEM_PROCESSES",
+        data: {}
+      });
+    });
+  }, []);
+
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    switch (message.type) {
+      case "GOT_SYSTEM_PROCESSES":
+        const systemProcesses = Object.entries(message.systemProcesses).map(
+            ([key, value]) => {
+              return {
+                key,
+                instanceId: value.instanceId,
+                instanceName: value.instanceName
+              };
+            }
+        );
+        setProcessOptions(systemProcesses);
+        break;
+      case "GOT_SYSTEM_PROCESSES_DTO":
+        const systemProcessDto = message.systemProcess;
+        setStatus(systemProcessDto.status);
+        setParameters(systemProcessDto.params);
+        if (systemProcessDto.lastRun > 0) {
+          let toLocaleString = new Date(systemProcessDto.lastRun).toLocaleString();
+          setLastRun(toLocaleString);
+        } else {
+          setLastRun("");
+        }
+        break;
+    }
+  });
+
+  const onProcessesDropDownChange = (e, { instanceId }) => {
+    setProcess(instanceId);
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        type: "SYSTEM_PROCESSES_DTO",
+        data: { instanceId: instanceId }
+      });
+    });
+
   };
+
+  const onStartProcess = () => {
+    if (process) {
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          type: "START_PROCESS",
+          data: { instanceId: parseInt(process), params: paramNewValues }
+        });
+      });
+    }
+  };
+
+  const onLogClick = () => {
+    window.open(host + "/kenshoo_control.jsp?tab=process_log&prof_id=1&processId=" + process, '_blank');
+  };
+
 
   return (
     <MaterialCard title={"System processes"} onBackClick={onBackClick}>
       <Autocomplete
         style={{ marginTop: 25 }}
-        options={options}
-        onChange={dummyOnChange}
+        options={processOptions}
+        getOptionLabel={option => option.instanceName}
+        onChange={onProcessesDropDownChange}
         renderInput={params => (
           <TextField {...params} label="Select process" variant="outlined" />
         )}
-        value={process}
       />
       <div className={classes.button}>
         <ActionButton
@@ -124,9 +178,11 @@ const SystemProcessesCard = ({ onBackClick }) => {
         openParametersDialog={openParametersDialog}
         setOpenParametersDialog={setOpenParametersDialog}
         parameters={parameters}
+        paramNewValues={paramNewValues}
+        setParamNewValues={setParamNewValues}
       />
       <ProcessDetails lastRun={lastRun} status={status} />
-      <Footer onShowLogsClick={() => {}} onStartClick={() => {}} />
+      <Footer onShowLogsClick={onLogClick} onStartClick={onStartProcess} />
     </MaterialCard>
   );
 };

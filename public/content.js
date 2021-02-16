@@ -104,6 +104,87 @@ chrome.runtime.onMessage.addListener(message => {
               "*"
           );
           break;
+    case "SET_USER_FEATURE":
+      window.postMessage(
+        {
+          type,
+          payload: data
+        },
+        "*"
+      );
+      break;
+    case "AGENCIES":
+      window.postMessage(
+        {
+          type,
+          payload: data
+        },
+        "*"
+      );
+      break;
+    case "USER_FEATURES":
+      window.postMessage(
+        {
+          type,
+          payload: data
+        },
+        "*"
+      );
+      break;
+    case "GET_CONTROL_PANEL_OPTIONS":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
+    case "REFRESH_CONTROL_PANEL":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
+    case "GET_HOST":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
+    case "SYSTEM_PROCESSES":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
+    case "SYSTEM_PROCESSES_DTO":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
+    case "START_PROCESS":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
   }
 });
 
@@ -122,6 +203,21 @@ const handleApplicationEvents = event => {
         chrome.runtime.sendMessage({
           type: "GOT_USER_FEATURES",
           userFeatures: data.payload
+        });
+        // chrome.storage.sync.set({ userFeatures: data.payload });
+        break;
+      case "GOT_SYSTEM_PROCESSES":
+        console.log("got system processes");
+        chrome.runtime.sendMessage({
+          type: "GOT_SYSTEM_PROCESSES",
+          systemProcesses: data.payload
+        });
+        // chrome.storage.sync.set({ userFeatures: data.payload });
+        break;
+      case "GOT_SYSTEM_PROCESSES_DTO":
+        chrome.runtime.sendMessage({
+          type: "GOT_SYSTEM_PROCESSES_DTO",
+          systemProcess: data.payload
         });
         // chrome.storage.sync.set({ userFeatures: data.payload });
         break;

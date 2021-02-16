@@ -38,10 +38,11 @@ const ListCmp = ({
       newChecked.splice(currentIndex, 1);
     }
     setCheckedItems(newChecked);
+    const newParams = paramNewValues.filter(item => item.name !== paramName);
     setParamNewValues([
-      ...paramNewValues,
-      { name: paramName, value: newChecked }
-    ]); //todo - check duplications
+      ...newParams,
+      { name: paramName, value: newChecked.join(',') }
+    ]);
   };
 
   return (
