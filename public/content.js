@@ -86,6 +86,15 @@ chrome.runtime.onMessage.addListener(message => {
               "*"
           );
           break;
+      case "GET_BUILD_NUMBER":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
   }
 });
 
@@ -121,13 +130,20 @@ const handleApplicationEvents = event => {
             });
             // chrome.storage.sync.set({ userFeatures: data.payload });
             break;
+        case "GOT_BUILD_NUMBER":
+            chrome.runtime.sendMessage({
+                type: "GOT_BUILD_NUMBER",
+                build: data.payload
+            });
+            // chrome.storage.sync.set({ userFeatures: data.payload });
+            break;
         case "GOT_GLOBALS":
             chrome.runtime.sendMessage({
                 type: "GOT_GLOBALS",
                 globals: data.payload
             });
             break;
-        default:
+      default:
         break;
     }
   }

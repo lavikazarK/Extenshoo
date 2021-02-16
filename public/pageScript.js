@@ -29,6 +29,9 @@ const handlePopupContentEvents = event => {
       case "DELETE_GLOBAL":
         window.top.deleteGlobal(data.payload);
         break;
+      case "GET_BUILD_NUMBER":
+        window.top.getBuildNumber(data.payload);
+        break;
       default:
         break;
     }
