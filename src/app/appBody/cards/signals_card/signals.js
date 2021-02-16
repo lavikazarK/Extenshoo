@@ -48,7 +48,6 @@ const completedAutomations = [
 
 const useStyles = makeStyles(() => ({
   root: {
-    overflow: "auto",
     marginBottom: 20,
     maxHeight: 240
   },
@@ -60,6 +59,10 @@ const useStyles = makeStyles(() => ({
   },
   item: {
     marginTop: 10
+  },
+  container: {
+    overflow: "auto",
+    height: "300px"
   }
 }));
 
@@ -71,100 +74,106 @@ const SignalsCard = ({ onBackClick }) => {
 
   return (
     <MaterialCard title={"Automations"} onBackClick={onBackClick}>
-      <Typography
-        style={{ marginTop: 25, color: "dimgray", display: "flex" }}
-        variant="h6"
-      >
-        In Progress
-      </Typography>
-      <TreeView
-        className={classes.root}
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-      >
-        {automations.map((action, index) => (
-          <TreeItem
-            className={classes.item}
-            nodeId={index}
-            label={
-              <div className={classes.label}>
-                <u>{action.name}</u>
-              </div>
-            }
-            onLabelClick={event => {
-              event.preventDefault();
-              window.open(action.url);
-            }}
-          >
+      <div className={classes.container}>
+        <Typography
+          style={{ marginTop: 25, color: "dimgray", display: "flex" }}
+          variant="h6"
+        >
+          In Progress
+        </Typography>
+        <TreeView
+          className={classes.root}
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ChevronRightIcon />}
+        >
+          {automations.map((action, index) => (
             <TreeItem
-              nodeId={(index + 500) * 2}
+              className={classes.item}
+              nodeId={index}
               label={
-                <AutomationData title={"Status: "} value={action.status} />
+                <div className={classes.label}>
+                  <u>{action.name}</u>
+                </div>
               }
-            />
+              onLabelClick={event => {
+                event.preventDefault();
+                window.open(action.url);
+              }}
+            >
+              <TreeItem
+                nodeId={(index + 500) * 2}
+                label={
+                  <AutomationData title={"Status: "} value={action.status} />
+                }
+              />
+              <TreeItem
+                nodeId={(index + 500) * 3}
+                label={
+                  <AutomationData title={"Start: "} value={action.start} />
+                }
+              />
+              <TreeItem
+                nodeId={(index + 500) * 4}
+                label={
+                  <AutomationData
+                    title={"Updated: "}
+                    value={action.last_update}
+                  />
+                }
+              />
+            </TreeItem>
+          ))}
+        </TreeView>
+        <Typography
+          style={{ marginTop: 25, color: "dimgray", display: "flex" }}
+          variant="h6"
+        >
+          Completed
+        </Typography>
+        <TreeView
+          className={classes.root}
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ChevronRightIcon />}
+        >
+          {doneAutomations.map((action, index) => (
             <TreeItem
-              nodeId={(index + 500) * 3}
-              label={<AutomationData title={"Start: "} value={action.start} />}
-            />
-            <TreeItem
-              nodeId={(index + 500) * 4}
+              className={classes.item}
+              nodeId={index}
               label={
-                <AutomationData
-                  title={"Updated: "}
-                  value={action.last_update}
-                />
+                <div className={classes.label}>
+                  <u>{action.name}</u>
+                </div>
               }
-            />
-          </TreeItem>
-        ))}
-      </TreeView>
-      <Typography
-        style={{ marginTop: 25, color: "dimgray", display: "flex" }}
-        variant="h6"
-      >
-        Completed
-      </Typography>
-      <TreeView
-        className={classes.root}
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-      >
-        {doneAutomations.map((action, index) => (
-          <TreeItem
-            className={classes.item}
-            nodeId={index}
-            label={
-              <div className={classes.label}>
-                <u>{action.name}</u>
-              </div>
-            }
-            onLabelClick={event => {
-              event.preventDefault();
-              window.open(action.url);
-            }}
-          >
-            <TreeItem
-              nodeId={(index + 500) * 2}
-              label={
-                <AutomationData title={"Status: "} value={action.status} />
-              }
-            />
-            <TreeItem
-              nodeId={(index + 500) * 3}
-              label={<AutomationData title={"Start: "} value={action.start} />}
-            />
-            <TreeItem
-              nodeId={(index + 500) * 4}
-              label={
-                <AutomationData
-                  title={"Updated: "}
-                  value={action.last_update}
-                />
-              }
-            />
-          </TreeItem>
-        ))}
-      </TreeView>
+              onLabelClick={event => {
+                event.preventDefault();
+                window.open(action.url);
+              }}
+            >
+              <TreeItem
+                nodeId={(index + 500) * 2}
+                label={
+                  <AutomationData title={"Status: "} value={action.status} />
+                }
+              />
+              <TreeItem
+                nodeId={(index + 500) * 3}
+                label={
+                  <AutomationData title={"Start: "} value={action.start} />
+                }
+              />
+              <TreeItem
+                nodeId={(index + 500) * 4}
+                label={
+                  <AutomationData
+                    title={"Updated: "}
+                    value={action.last_update}
+                  />
+                }
+              />
+            </TreeItem>
+          ))}
+        </TreeView>
+      </div>
     </MaterialCard>
   );
 };
