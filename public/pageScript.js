@@ -41,6 +41,9 @@ const handlePopupContentEvents = event => {
       case "REDIRECT_TO_GRID":
         window.top.redirectToGrid(data.payload);
         break;
+      case "START_PROCESS":
+        window.top.startProcess(data.payload);
+        break;
       default:
         break;
     }

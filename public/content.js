@@ -176,6 +176,15 @@ chrome.runtime.onMessage.addListener(message => {
           "*"
       );
       break;
+    case "START_PROCESS":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
   }
 });
 
@@ -198,6 +207,7 @@ const handleApplicationEvents = event => {
         // chrome.storage.sync.set({ userFeatures: data.payload });
         break;
       case "GOT_SYSTEM_PROCESSES":
+        console.log("got system processes");
         chrome.runtime.sendMessage({
           type: "GOT_SYSTEM_PROCESSES",
           systemProcesses: data.payload

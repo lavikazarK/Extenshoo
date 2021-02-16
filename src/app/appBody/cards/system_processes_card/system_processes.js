@@ -88,13 +88,9 @@ const SystemProcessesCard = ({ onBackClick }) => {
   const [lastRun, setLastRun] = useState("");
   const [parameters, setParameters] = useState([]);
   const [openParametersDialog, setOpenParametersDialog] = useState(false);
+  const [paramNewValues, setParamNewValues] = useState([]);
+  const [host, setHost] = useState("");
 
-  const dummyOnChange = (e, value) => {
-    setProcessOptions(value);
-    setStatus("Not Scheduled");
-    setLastRun("2020-07-30 03:00:00.0");
-    setParameters(params);
-  };
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -108,7 +104,6 @@ const SystemProcessesCard = ({ onBackClick }) => {
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     switch (message.type) {
       case "GOT_SYSTEM_PROCESSES":
-        debugger;
         const systemProcesses = Object.entries(message.systemProcesses).map(
             ([key, value]) => {
               return {
@@ -118,20 +113,20 @@ const SystemProcessesCard = ({ onBackClick }) => {
               };
             }
         );
-        console.log(systemProcesses);
         setProcessOptions(systemProcesses);
         break;
       case "GOT_SYSTEM_PROCESSES_DTO":
-        debugger;
         const systemProcessDto = message.systemProcess;
-        console.log(systemProcessDto);
         setStatus(systemProcessDto.status);
-        setLastRun(systemProcessDto.lastRun);
-        //setParameters(systemProcessDto.paramsMap)
+        setParameters(systemProcessDto.params);
+        if (systemProcessDto.lastRun > 0) {
+          let toLocaleString = new Date(systemProcessDto.lastRun).toLocaleString();
+          setLastRun(toLocaleString);
+        } else {
+          setLastRun("");
+        }
         break;
     }
-
-    console.log(message);
   });
 
   const onProcessesDropDownChange = (e, { instanceId }) => {
@@ -143,6 +138,21 @@ const SystemProcessesCard = ({ onBackClick }) => {
       });
     });
 
+  };
+
+  const onStartProcess = () => {
+    if (process) {
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          type: "START_PROCESS",
+          data: { instanceId: parseInt(process), params: paramNewValues }
+        });
+      });
+    }
+  };
+
+  const onLogClick = () => {
+    window.open(host + "/kenshoo_control.jsp?tab=process_log&prof_id=1&processId=" + process, '_blank');
   };
 
 
@@ -168,9 +178,11 @@ const SystemProcessesCard = ({ onBackClick }) => {
         openParametersDialog={openParametersDialog}
         setOpenParametersDialog={setOpenParametersDialog}
         parameters={parameters}
+        paramNewValues={paramNewValues}
+        setParamNewValues={setParamNewValues}
       />
       <ProcessDetails lastRun={lastRun} status={status} />
-      <Footer onShowLogsClick={() => {}} onStartClick={() => {}} />
+      <Footer onShowLogsClick={onLogClick} onStartClick={onStartProcess} />
     </MaterialCard>
   );
 };
