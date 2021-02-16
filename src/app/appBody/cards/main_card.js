@@ -33,9 +33,10 @@ const MainCard = ({
   setOpenGlobalsCard,
   setOpenLoginCard,
   setOpenControlPanelCard,
+  setOpenGridsCard,
   setOpenSystemProcessesCard,
   setOpenSignalsCard
-}) => {
+                  }) => {
   const classes = useStyles({});
 
   return (
@@ -48,7 +49,7 @@ const MainCard = ({
       <IconButtonCmp
         title={"Grids"}
         icon={Apps}
-        onClick={() => setOpenUFCard(true)}
+        onClick={() => setOpenGridsCard(true)}
       />
       <IconButtonCmp
         title={"Globals"}
