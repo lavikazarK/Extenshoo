@@ -32,6 +32,33 @@ chrome.runtime.onMessage.addListener(message => {
         "*"
       );
       break;
+    case "GET_CONTROL_PANEL_OPTIONS":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
+    case "REFRESH_CONTROL_PANEL":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
+    case "GET_URL":
+      window.postMessage(
+          {
+            type,
+            payload: data
+          },
+          "*"
+      );
+      break;
   }
 });
 
@@ -53,6 +80,20 @@ const handleApplicationEvents = event => {
         });
         // chrome.storage.sync.set({ userFeatures: data.payload });
         break;
+      case "GOT_CONTROL_PANEL_OPTIONS":
+        chrome.runtime.sendMessage({
+          type: "GOT_CONTROL_PANEL_OPTIONS",
+          options: data.payload
+        });
+        // chrome.storage.sync.set({ userFeatures: data.payload });
+        break;
+        case "GOT_URL":
+            chrome.runtime.sendMessage({
+                type: "GOT_URL",
+                userFeatures: data.payload
+            });
+            // chrome.storage.sync.set({ userFeatures: data.payload });
+            break;
       default:
         break;
     }
