@@ -39,7 +39,7 @@ const AppBody = () => {
     !openLoginCard &&
     !openControlPanelCard &&
     !openGridsCard &&
-    !openSystemProcessesCard;
+    !openSystemProcessesCard &&
     !openSignalsCard;
 
     return (
