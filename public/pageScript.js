@@ -32,6 +32,9 @@ const handlePopupContentEvents = event => {
       case "GET_BUILD_NUMBER":
         window.top.getBuildNumber(data.payload);
         break;
+      case "REDIRECT_TO_GRID":
+        window.top.redirectToGrid(data.payload);
+        break;
       default:
         break;
     }

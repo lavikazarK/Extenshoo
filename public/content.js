@@ -95,6 +95,15 @@ chrome.runtime.onMessage.addListener(message => {
               "*"
           );
           break;
+      case "REDIRECT_TO_GRID":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
   }
 });
 
