@@ -27,7 +27,13 @@ const ListCmp = ({
 
   //todo - put defaultValue or currentValue to initial checkedItems array
   const [checkedItems, setCheckedItems] = React.useState([]);
-  const availableValuesList = availableValues.split(",");
+  debugger;
+  let availableValuesList = availableValues;
+  if (!availableValues) {
+    availableValuesList = [];
+  } else if (availableValues.includes(",")) {
+    availableValuesList = availableValues.split(",")
+  }
 
   const handleToggle = value => () => {
     const currentIndex = checkedItems.indexOf(value);
