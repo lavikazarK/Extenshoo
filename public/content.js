@@ -5,60 +5,87 @@ scriptElement.src = chrome.extension.getURL("pageScript.js");
 chrome.runtime.onMessage.addListener(message => {
   const { type, data } = message;
   switch (type) {
-    case "SET_USER_FEATURE":
-      window.postMessage(
-        {
-          type,
-          payload: data
-        },
-        "*"
-      );
-      break;
-    case "AGENCIES":
-      window.postMessage(
-        {
-          type,
-          payload: data
-        },
-        "*"
-      );
-      break;
-    case "USER_FEATURES":
-      window.postMessage(
-        {
-          type,
-          payload: data
-        },
-        "*"
-      );
-      break;
-    case "GET_CONTROL_PANEL_OPTIONS":
-      window.postMessage(
-          {
-            type,
-            payload: data
-          },
-          "*"
-      );
-      break;
-    case "REFRESH_CONTROL_PANEL":
-      window.postMessage(
-          {
-            type,
-            payload: data
-          },
-          "*"
-      );
-      break;
-    case "GET_HOST":
-      window.postMessage(
-          {
-            type,
-            payload: data
-          },
-          "*"
-      );
-      break;
+      case "SET_USER_FEATURE":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
+      case "AGENCIES":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
+      case "USER_FEATURES":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
+      case "GLOBALS":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
+      case "SET_GLOBAL":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
+      case "DELETE_GLOBAL":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
+      case "GET_CONTROL_PANEL_OPTIONS":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
+      case "REFRESH_CONTROL_PANEL":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
+      case "GET_HOST":
+          window.postMessage(
+              {
+                  type,
+                  payload: data
+              },
+              "*"
+          );
+          break;
   }
 });
 
@@ -94,7 +121,13 @@ const handleApplicationEvents = event => {
             });
             // chrome.storage.sync.set({ userFeatures: data.payload });
             break;
-      default:
+        case "GOT_GLOBALS":
+            chrome.runtime.sendMessage({
+                type: "GOT_GLOBALS",
+                globals: data.payload
+            });
+            break;
+        default:
         break;
     }
   }

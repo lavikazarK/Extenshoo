@@ -20,6 +20,15 @@ const handlePopupContentEvents = event => {
       case "GET_HOST":
         window.top.getHost(data.payload);
         break;
+      case "GLOBALS":
+        window.top.getGlobals(data.payload);
+        break;
+      case "SET_GLOBAL":
+        window.top.setGlobals(data.payload);
+        break;
+      case "DELETE_GLOBAL":
+        window.top.deleteGlobal(data.payload);
+        break;
       default:
         break;
     }
