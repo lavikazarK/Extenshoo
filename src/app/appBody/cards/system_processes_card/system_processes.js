@@ -83,7 +83,7 @@ const SystemProcessesCard = ({ onBackClick }) => {
   const classes = useStyles();
 
   const [processOptions, setProcessOptions] = useState([]);
-  const [process, setProcess] = useState([]);
+  const [process, setProcess] = useState("0");
   const [status, setStatus] = useState("");
   const [lastRun, setLastRun] = useState("");
   const [parameters, setParameters] = useState([]);
@@ -96,6 +96,12 @@ const SystemProcessesCard = ({ onBackClick }) => {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       chrome.tabs.sendMessage(tabs[0].id, {
         type: "SYSTEM_PROCESSES",
+        data: {}
+      });
+    });
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        type: "GET_HOST",
         data: {}
       });
     });
@@ -125,6 +131,9 @@ const SystemProcessesCard = ({ onBackClick }) => {
         } else {
           setLastRun("");
         }
+        break;
+      case "GOT_HOST":
+        setHost(message.host);
         break;
     }
   });

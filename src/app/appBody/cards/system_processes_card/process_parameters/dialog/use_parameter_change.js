@@ -18,7 +18,7 @@ const useParameterChange = ({
           <ParamValuesCmp
             paramName={selectedParameterObj.prototype.name}
             defaultValue={selectedParameterObj.prototype.defaultValue}
-            availableValues={selectedParameterObj.prototype.availableValues}
+            availableValues={selectedParameterObj.availableValues}
             value={selectedParameterObj.value}
             type={selectedParameterObj.prototype.type}
             paramNewValues={paramNewValues}
